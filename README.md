@@ -25,7 +25,7 @@ conda env create -f environment.yml
 This will create a new environment named stereo-visual-odometry-env with all the necessary packages installed. You can then activate the environment using the following command:
 
 ``` bash
-conda activate stereo-visual-odometry-env
+conda activate yolov5-deepsort
 ```
 
 Once the environment is activated, you can run the project and use the packages listed above.
