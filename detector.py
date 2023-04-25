@@ -2,13 +2,7 @@ import cv2
 import numpy as np
 import torch 
 
-# YOLO Parameters
-DOWNSCALE_FACTOR = 1  # Reduce the resolution of the input frame by this factor to speed up object detection process
-CONFIDENCE_THRESHOLD = 0.1 # Minimum theshold for the bounding box to be displayed
-YOLO_MODEL_NAME = 'yolov5n'
-TRACKED_CLASS = 'person'
-
-class YOLOv5Detector(): #yet to upgrade to v8
+class YOLOv5Detector(): 
 
     def __init__(self, model_name):
 
@@ -17,6 +11,9 @@ class YOLOv5Detector(): #yet to upgrade to v8
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         print("Using Device: " , self.device)
 
+        self.downscale_factor = 1  # Reduce the resolution of the input frame by this factor to speed up object detection process
+        self.confidence_threshold = 0.1 # Minimum theshold for the detection bounding box to be displayed
+        self.tracked_class = 'person'
 
     def load_model(self , model_name):  # Load a specific yolo v5 model or the default model
 
@@ -28,8 +25,8 @@ class YOLOv5Detector(): #yet to upgrade to v8
  
     def score_frame(self , frame): 
         self.model.to(self.device) # Transfer a model and its associated tensors to CPU or GPU
-        frame_width = int(frame.shape[1]/DOWNSCALE_FACTOR)
-        frame_height = int(frame.shape[0]/DOWNSCALE_FACTOR)
+        frame_width = int(frame.shape[1]/self.downscale_factor)
+        frame_height = int(frame.shape[0]/self.downscale_factor)
         frame_resized = cv2.resize(frame , (frame_width,frame_height))
 
         yolo_result = self.model(frame_resized)
@@ -43,7 +40,7 @@ class YOLOv5Detector(): #yet to upgrade to v8
 
         return self.classes[int(x)]
         
-    def plot_boxes(self, results, frame, height, width, confidence=CONFIDENCE_THRESHOLD):
+    def plot_boxes(self, results, frame, height, width):
 
         labels, bb_cordinates = results  # Extract labels and bounding box coordinates
         detections = []         # Empty list to store the detections later 
@@ -54,15 +51,15 @@ class YOLOv5Detector(): #yet to upgrade to v8
         for object_index in range(num_objects):
             row = bb_cordinates[object_index]
 
-            if row[4] >= confidence:
+            if row[4] >= self.confidence_threshold:
                 x1, y1, x2, y2 = int(row[0]*x_shape), int(row[1]*y_shape), int(row[2]*x_shape), int(row[3]*y_shape)
                 
-                if self.class_to_label(labels[object_index]) == TRACKED_CLASS :
+                if self.class_to_label(labels[object_index]) == self.tracked_class :
                     cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                     x_center = x1 + ((x2-x1)/2)
                     y_center = y1 + ((y2 - y1) / 2)
                     conf_val = float(row[4].item())
-                    feature = TRACKED_CLASS
+                    feature = self.tracked_class
 
                     class_count+=1
                     
