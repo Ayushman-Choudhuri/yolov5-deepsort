@@ -1,15 +1,16 @@
 import cv2
 import time
+import os 
+import sys
 
-from detector import YOLOv5Detector
-from tracker import object_tracker
+# Add the src directory to the module search path
+sys.path.append(os.path.abspath('src'))
+
+from src.detector import YOLOv5Detector
+from src.tracker import object_tracker
+from src.dataloader import cap
 
 YOLO_MODEL_NAME = 'yolov5n'
-
-# Data Source Parameters
-DATA_SOURCE = "video file"   # source can be set to either "video file" or "webcam"
-WEBCAM_ID = 2                # if using external webcam. Please modify based on your system
-DATA_PATH = "./data/people.mp4" # path to the video file if you are using a video as input
 
 # Image Display Parameters
 DISP_FPS = True 
@@ -17,17 +18,6 @@ DISP_OBJ_COUNT = True
 DISP_TRACKS = True 
 DISP_OBJ_DETECT_BOX = True
 DISP_OBJ_TRACK_BOX = True
-
-# Select Data Source 
-if DATA_SOURCE == "webcam": 
-    cap = cv2.VideoCapture(WEBCAM_ID)
-elif DATA_SOURCE == "video file": 
-    cap = cv2.VideoCapture(DATA_PATH)
-else: print("Enter correct data source")
-
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-
 
 object_detector = YOLOv5Detector(model_name=YOLO_MODEL_NAME)
 
