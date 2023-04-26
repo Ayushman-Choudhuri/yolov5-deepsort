@@ -75,12 +75,10 @@ git clone https://github.com/Ayushman-Choudhuri/yolov5-deepsort
 python3 main.py
 
 ``` 
-
-
-
-
-
 ## Results 
+<p align="center">
+<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/results/output.gif">
+</p>
 
 ## Known Issues
 
