@@ -26,7 +26,12 @@ EMBEDDER_WTS = None          # Optional path to the weights file for the feature
 POLYGON = False              # Whether to use polygon instead of bounding boxes for tracking. Defaults to False.
 TODAY = None                 # Optional argument to set the current date. This is used to calculate the age of each track in days. If not provided, the current date is used.
 
-object_tracker = DeepSort(max_age=MAX_AGE,
+class DeepSortTracker(): 
+
+    def __init__(self):
+        
+        self.algo_name ="DeepSORT"
+        self.object_tracker = DeepSort(max_age=MAX_AGE,
                 n_init=N_INIT,
                 nms_max_overlap=NMS_MAX_OVERLAP,
                 max_cosine_distance=MAX_COSINE_DISTANCE,
@@ -40,3 +45,7 @@ object_tracker = DeepSort(max_age=MAX_AGE,
                 embedder_wts=EMBEDDER_WTS,
                 polygon=POLYGON,
                 today=TODAY)
+    
+        
+    def display_track(self , track_history):
+        pass
