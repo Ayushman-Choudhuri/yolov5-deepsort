@@ -1,4 +1,5 @@
 from deep_sort_realtime.deepsort_tracker import DeepSort
+import cv2
 
 
 # Deep Sort Parameters
@@ -47,5 +48,25 @@ class DeepSortTracker():
                 today=TODAY)
     
         
-    def display_track(self , track_history):
-        pass
+    def display_track(self , track_history , tracks_current , img):
+        for track in tracks_current:
+            if not track.is_confirmed():
+                continue
+            track_id = track.track_id
+
+            # Retrieve the current track location and bounding box
+            location = track.to_tlbr()
+            bbox = location[:4].astype(int)
+            bbox_center = ((bbox[0] + bbox[2]) // 2, (bbox[1] + bbox[3]) // 2)
+            # Retrieve the previous center location, if available
+            prev_center = track_history.get(track_id)
+
+            # Draw the track line, if there is a previous center location
+            if prev_center is not None:
+                cv2.line(img, prev_center, bbox_center, (255, 0, 0), 2)
+                
+
+            cv2.rectangle(img,(int(bbox[0]), int(bbox[1])),(int(bbox[2]), int(bbox[3])),(0,0,255),2)
+            cv2.putText(img, "ID: " + str(track_id), (int(bbox[0]), int(bbox[1] - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+
+            track_history[track_id] = bbox_center
