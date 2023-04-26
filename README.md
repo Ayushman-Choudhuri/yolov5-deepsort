@@ -2,6 +2,7 @@
 
 This project is an open-source implementation of a real-time object tracking system based on the YOLOv5 and DeepSORT algorithms. This project aims to provide a solution for object tracking in videos, with the ability to track multiple objects simultaneously in real-time. The YOLOv5 model is used to detect objects in each frame, and then the DeepSORT algorithm is used to track these objects across multiple frames and associate them with unique IDs. The project is implemented in Python using the PyTorch deep learning framework.
 
+
 ## Dependencies
 You should install the following packages in your environment to run this project: 
 
@@ -33,7 +34,51 @@ Once the environment is activated, you can run the project and use the packages 
 
 ## Directory Structure 
 
+```bash
+yolov5-deepsort
+├── main.py
+├── src
+    ├── dataloader.py
+    ├── detector.py
+    └── tracker.py
+├── data
+├── environment.yml
+├── config.yml
+├── README.md
+
+
+``` 
+
+
 ## Running the Project
+#### Step 1: Assuming the dependencies have been installed and the environment activated ,clone the repository
+
+``` bash
+git clone https://github.com/Ayushman-Choudhuri/yolov5-deepsort
+
+```
+
+### Step 2: Setting data source
+* Option 1: Webcam  
+  - If the input video frame is a webcam, in the **config.yml** file ,change the **data_source** parameter in the **dataloader** section to "webcam".
+  - Open the **config.yml** file and change the **webcam_id** to the one on your respective computer. You can list all the video devices in the **/dev** directory sorted by time in reverse order. To list them please use the following command. 
+```bash
+  ls -ltrh /dev/video*
+
+``` 
+* Option 3: Video File 
+  - Input your video file in .mp4 format in the data directory (as shown in the directory structure)
+  - Open the **config.yml** file and update the **data_path** parameter in the **dataloader** section
+
+### Step 3: Run the main.py file 
+```bash
+python3 main.py
+
+``` 
+
+
+
+
 
 ## Results 
 
