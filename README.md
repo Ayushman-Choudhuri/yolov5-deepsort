@@ -2,6 +2,11 @@
 
 This project is an open-source implementation of a real-time object tracking system based on the YOLOv5 and DeepSORT algorithms. This project aims to provide a solution for object tracking in videos, with the ability to track multiple objects simultaneously in real-time. The YOLOv5 model is used to detect objects in each frame, and then the DeepSORT algorithm is used to track these objects across multiple frames and associate them with unique IDs. The project is implemented in Python using the PyTorch deep learning framework.
 
+<p align="center">
+
+<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/images/DeepSORT.png">
+
+</p>
 
 ## Dependencies
 You should install the following packages in your environment to run this project: 
