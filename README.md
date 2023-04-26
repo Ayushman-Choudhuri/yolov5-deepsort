@@ -75,16 +75,24 @@ git clone https://github.com/Ayushman-Choudhuri/yolov5-deepsort
 python3 main.py
 
 ``` 
-
-
-
-
-
 ## Results 
+
+The algorithm was run on a openly available [video](https://pixabay.com/videos/people-commerce-shop-busy-mall-6387/) on pixabay showing people in a mall
+
+<p align="center">
+<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/results/output.gif">
+</p>
 
 ## Known Issues
 
+1. There is a bug in the tracker.py file due to which currently the configuration parameters are not getting read from the config.yml file. This will be resolved soon. 
+2. Due to the nature of the YOLO algorithm , when people stand too close to each other in the video, the total number of detections are lower than expected. This shall be resolved in a future project with Fast RCNN. 
+
 ## Future Work 
+
+1. Implementation of Fast RCNN for object detection. This would be slower than YOLOv5 but would be able to accurately detect people when they stand too close to each other in crowded areas. 
+2. C++ Implementation
+3. ROS implementation
 
 ## References
 
