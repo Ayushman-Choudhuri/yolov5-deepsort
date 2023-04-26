@@ -10,7 +10,7 @@ MODEL_NAME = config['model_name']
 TRACKED_CLASS = config['tracked_class']
 DOWNSCALE_FACTOR = config['downscale_factor']
 CONFIDENCE_THRESHOLD = config['confidence_threshold']
-
+DISP_OBJ_DETECT_BOX = config['disp_obj_detect_box']
 
 class YOLOv5Detector(): 
 
@@ -50,12 +50,12 @@ class YOLOv5Detector():
 
         return self.classes[int(x)]
         
-    def plot_boxes(self, results, frame, height, width):
+    def extract_detections(self, results, frame, height, width):
 
         labels, bb_cordinates = results  # Extract labels and bounding box coordinates
         detections = []         # Empty list to store the detections later 
-        class_count = 0
-        num_objects = len(labels)
+        class_count = 0         # Initialize class count for the frame 
+        num_objects = len(labels)   #extract the number of objects detected
         x_shape, y_shape = width, height
 
         for object_index in range(num_objects):
@@ -65,7 +65,9 @@ class YOLOv5Detector():
                 x1, y1, x2, y2 = int(row[0]*x_shape), int(row[1]*y_shape), int(row[2]*x_shape), int(row[3]*y_shape)
                 
                 if self.class_to_label(labels[object_index]) == self.tracked_class :
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                    
+                    if DISP_OBJ_DETECT_BOX: 
+                        self.plot_boxes(x1 , y1 , x2 , y2 , frame)
                     x_center = x1 + ((x2-x1)/2)
                     y_center = y1 + ((y2 - y1) / 2)
                     conf_val = float(row[4].item())
@@ -74,6 +76,13 @@ class YOLOv5Detector():
                     class_count+=1
                     
                     detections.append(([x1, y1, int(x2-x1), int(y2-y1)], row[4].item(), feature))
-                    # We structure the detections in this way because we want the bbs expected to be a list of detections, each in tuples of ( [left,top,w,h], confidence, detection_class) - Check deep-sort-realtime 1.3.2 documentation
+                    # We structure the detections in this way because we want the bbs expected to be a list of detections in the tracker, each in tuples of ( [left,top,w,h], confidence, detection_class) - Check deep-sort-realtime 1.3.2 documentation
 
-        return frame , detections , class_count
+        return detections , class_count
+    
+    def plot_boxes(self , x1 , y1 , x2 , y2 , frame): 
+
+        if DISP_OBJ_DETECT_BOX: 
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        else: 
+            pass
