@@ -7,7 +7,7 @@ yolov5_deepsort:
   confidence_threshold: 0.1
   disp_obj_detect_box: True   # Set to true if you want to view the detections from object detector 
  
- tracker:
+ tracker:cogt
   max_age : 5                # Maximum number of frames to keep a track alive without new detections. Default is 30
   n_init: 1                  # Minimum number of detections needed to start a new track. Default is 3
   nms_max_overlap: 1.0       # Maximum overlap between bounding boxes allowed for non maximal supression(NMS).If two bounding boxes overlap by more than this value, the one with the lower confidence score is suppressed. Defaults to 1.0.
