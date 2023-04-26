@@ -77,10 +77,16 @@ python3 main.py
 ``` 
 ## Results 
 
-The algorithm was run on a openly available [video](https://pixabay.com/videos/people-commerce-shop-busy-mall-6387/) on pixabay showing people in a mall
+The project was run on a openly available [video](https://pixabay.com/videos/people-commerce-shop-busy-mall-6387/) on pixabay showing people in a mall
 
 <p align="center">
-<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/results/output.gif">
+<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/results/mall.gif">
+</p>
+
+The Project was also run on a openly available [video](https://pixabay.com/videos/cars-motorway-speed-motion-traffic-1900/) on pixabay showing cars on the road.
+
+<p align="center">
+<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/results/cars.gif">
 </p>
 
 ## Known Issues
