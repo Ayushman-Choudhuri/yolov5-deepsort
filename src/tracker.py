@@ -1,6 +1,56 @@
 from deep_sort_realtime.deepsort_tracker import DeepSort
 import cv2
+import numpy as np
+import yaml
 
+
+with open('config.yml' , 'r') as f:
+    config =yaml.safe_load(f)['yolov5_deepsort']['tracker']
+
+#Visualization parameters
+
+DISP_TRACKS = config['disp_tracks']
+DISP_OBJ_TRACK_BOX = config['disp_obj_track_box']
+OBJ_TRACK_COLOR = tuple(config['obj_tack_color'])
+OBJ_TRACK_BOX_COLOR = tuple(config['obj_track_box_color'])
+
+# # Deep Sort Parameters (check config.yml for parameter descriptions)
+# MAX_AGE = config['max_age']   
+# N_INIT =config['n_init']    
+# NMS_MAX_OVERLAP = config['nms_max_overlap']       
+# MAX_COSINE_DISTANCE = config['max_cosine_distance']    
+# NN_BUDGET = config['nn_budget']            
+# OVERRIDE_TRACK_CLASS = config['override_track_class'] 
+# EMBEDDER = config['embedder']
+# HALF = config['half'] 
+# BGR = config['bgr']
+# EMBEDDER_GPU = config['embedder_gpu'] 
+# EMBEDDER_MODEL_NAME = config['embedder_model_name']    
+# EMBEDDER_WTS = config['embedder_wts']           
+# POLYGON = config['polygon']              
+# TODAY = config['today']                  
+
+
+# class DeepSortTracker(): 
+
+#     def __init__(self):
+        
+#         self.algo_name ="DeepSORT"
+
+#         self.object_tracker = DeepSort(max_age=config['max_age'] ,
+#                 n_init=config['n_init'],
+#                 nms_max_overlap=config['nms_max_overlap'],
+#                 max_cosine_distance=config['max_cosine_distance'],
+#                 nn_budget=config['nn_budget'],
+#                 override_track_class=config['override_track_class'] ,
+#                 embedder=config['embedder'],
+#                 half=config['half'],
+#                 bgr=config['bgr'],
+#                 embedder_gpu=config['embedder_gpu'],
+#                 embedder_model_name=config['embedder_model_name'] ,
+#                 embedder_wts=config['embedder_wts'],
+#                 polygon=config['polygon'],
+#                 today=config['today'])
 
 # Deep Sort Parameters
 MAX_AGE = 5                 # Maximum number of frames to keep a track alive without new detections. Default is 30
@@ -49,24 +99,29 @@ class DeepSortTracker():
     
         
     def display_track(self , track_history , tracks_current , img):
+
         for track in tracks_current:
             if not track.is_confirmed():
                 continue
             track_id = track.track_id
-
-            # Retrieve the current track location and bounding box
+            
+            # Retrieve the current track location(i.e - center of the bounding box) and bounding box
             location = track.to_tlbr()
             bbox = location[:4].astype(int)
             bbox_center = ((bbox[0] + bbox[2]) // 2, (bbox[1] + bbox[3]) // 2)
+
             # Retrieve the previous center location, if available
-            prev_center = track_history.get(track_id)
-
+            prev_centers = track_history.get(track_id ,[])
+            prev_centers.append(bbox_center)
+            track_history[track_id] = prev_centers
+            
             # Draw the track line, if there is a previous center location
-            if prev_center is not None:
-                cv2.line(img, prev_center, bbox_center, (255, 0, 0), 2)
-                
+            if prev_centers is not None and DISP_TRACKS == True:
+                points = np.array(prev_centers, np.int32)
+                cv2.polylines(img, [points], False, (51 ,255, 255), 2)
 
-            cv2.rectangle(img,(int(bbox[0]), int(bbox[1])),(int(bbox[2]), int(bbox[3])),(0,0,255),2)
-            cv2.putText(img, "ID: " + str(track_id), (int(bbox[0]), int(bbox[1] - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            if DISP_OBJ_TRACK_BOX == True: 
+                cv2.rectangle(img,(int(bbox[0]), int(bbox[1])),(int(bbox[2]), int(bbox[3])),(0,0,255),1)
+                cv2.putText(img, "ID: " + str(track_id), (int(bbox[0]), int(bbox[1] - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,255), 1)
 
-            track_history[track_id] = bbox_center
+            
