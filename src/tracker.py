@@ -118,7 +118,7 @@ class DeepSortTracker():
             # Draw the track line, if there is a previous center location
             if prev_centers is not None and DISP_TRACKS == True:
                 points = np.array(prev_centers, np.int32)
-                cv2.polylines(img, [points], False, (51 ,255, 255), 2)
+                cv2.polylines(img, [points], False, (51 ,225, 255), 2)
 
             if DISP_OBJ_TRACK_BOX == True: 
                 cv2.rectangle(img,(int(bbox[0]), int(bbox[1])),(int(bbox[2]), int(bbox[3])),(0,0,255),1)
