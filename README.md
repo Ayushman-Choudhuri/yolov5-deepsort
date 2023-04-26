@@ -77,11 +77,23 @@ python3 main.py
 ``` 
 ## Results 
 
-The algorithm was run on a openly available [video](https://pixabay.com/videos/people-commerce-shop-busy-mall-6387/) on pixabay showing people in a mall
+The project was run on a openly available [video](https://pixabay.com/videos/people-commerce-shop-busy-mall-6387/) on pixabay showing people in a mall
 
 <p align="center">
-<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/results/output.gif">
+<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/results/mall.gif">
 </p>
+
+The Project was also run on a openly available [video](https://pixabay.com/videos/cars-motorway-speed-motion-traffic-1900/) on pixabay showing cars on the road.
+
+<p align="center">
+<img align="center" src="https://github.com/Ayushman-Choudhuri/yolov5-deepsort/blob/main/results/cars.gif">
+</p>
+
+## Evaluation
+DeepSORT is a multi-object tracking algorithm, so to judge its performance we need special metrics and benchmark datasets. We will be using CLEARMOT metrics to judge the performance of our DeepSORT on the [MOT17](https://motchallenge.net/results/MOT17/) dataset.ClearMOT is a framework for evaluating the performance of a tracker over different parameters. 
+
+This evaluation will be conducted soon. 
+
 
 ## Known Issues
 
@@ -99,3 +111,4 @@ The algorithm was run on a openly available [video](https://pixabay.com/videos/p
 * [YOLO Algorithm](https://arxiv.org/abs/1506.02640)
 * [SORT Algorithm](https://arxiv.org/abs/1703.07402)
 * [DeepSORT code repository](https://github.com/nwojke/deep_sort)
+* [DeepSORT explained](https://medium.com/augmented-startups/deepsort-deep-learning-applied-to-object-tracking-924f59f99104)
