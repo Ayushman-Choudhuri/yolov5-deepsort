@@ -6,7 +6,6 @@ import yaml
 with open('config.yml' , 'r') as f:
     config =yaml.safe_load(f)['yolov5_deepsort']['detector']
 
-MODEL_NAME = config['model_name']
 TRACKED_CLASS = config['tracked_class']
 DOWNSCALE_FACTOR = config['downscale_factor']
 CONFIDENCE_THRESHOLD = config['confidence_threshold']
@@ -33,7 +32,7 @@ class YOLOv5Detector():
             model = torch.hub.load('ultralytics/yolov5' , 'yolov5s' , pretrained = True)
         return model
  
-    def score_frame(self , frame): 
+    def run_yolo(self , frame): 
         self.model.to(self.device) # Transfer a model and its associated tensors to CPU or GPU
         frame_width = int(frame.shape[1]/self.downscale_factor)
         frame_height = int(frame.shape[0]/self.downscale_factor)
@@ -80,9 +79,5 @@ class YOLOv5Detector():
 
         return detections , class_count
     
-    def plot_boxes(self , x1 , y1 , x2 , y2 , frame): 
-
-        if DISP_OBJ_DETECT_BOX: 
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        else: 
-            pass
+    def plot_boxes(self , x1 , y1 , x2 , y2 , frame):  
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
